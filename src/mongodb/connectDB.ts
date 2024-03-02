@@ -9,9 +9,7 @@ import mongoose from "mongoose";
 //     };
 // }
 
-const URI =
-  "mongodb+srv://NextMeet:lZV3TPdBrjRuPLWJ@next-meet.xxvqeo1.mongodb.net/Next-Meet";
-  // "mongodb+srv://NextMeet:lZV3TPdBrjRuPLWJ@next-meet.xxvqeo1.mongodb.net/Next-Meet?retryWrites=true&w=majority&appName=Next-Meet";
+const URI = process.env.MONGODB_URL;
 let cached = global.mongoose;
 
 if (!cached) {
