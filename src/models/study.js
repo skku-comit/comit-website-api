@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const studySchema = new Schema({
-  image: {
+  imageSrc: {
     // type:
     required: true
   },
@@ -11,22 +11,37 @@ const studySchema = new Schema({
     type: String,
     required: true
   },
-  time: {
+  mentor: {
     type: String,
     required: true
   },
-  difficulty: {
+  day: {
     type: String,
     required: true
   },
-  stack: {
+  startTime: {
     type: String,
     required: true
   },
-  place: {
+  endTime: {
     type: String,
     required: true
-  }
+  },
+  level: {
+    type: String,
+    required: true
+  },
+  stack: [
+    {
+      type: String,
+      required: true
+    }
+  ],
+  campus: {
+    type: String,
+    required: true
+  },
+  description: String
 })
 
 module.exports = mongoose.model('Study', studySchema)

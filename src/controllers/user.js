@@ -7,19 +7,26 @@ exports.getStudies = (req, res, next) => {
 }
 
 exports.postStudy = (req, res, next) => {
-  const image = req.body.image
+  const imageSrc = req.body.imageSrc
   const title = req.body.title
-  const time = req.body.time
-  const difficulty = req.body.difficulty
+  const mentor = req.body.mentor
+  const day = req.body.day
+  const startTime = req.body.startTime
+  const endTime = req.body.endTime
+  const level = req.body.level
   const stack = req.body.stack
-  const place = req.body.place
+  const campus = req.body.campus
+  const description = req.body.description
   const study = new Study({
-    image: image,
+    imageSrc: imageSrc,
     title: title,
-    time: time,
-    difficulty: difficulty,
+    mentor: mentor,
+    startTime: startTime,
+    endTime: endTime,
+    level: level,
     stack: stack,
-    place: place
+    campus: campus,
+    description: description
   })
   study
     .save()
@@ -32,3 +39,7 @@ exports.postStudy = (req, res, next) => {
 exports.getStudy = (req, res, next) => {
   res.json()
 }
+
+exports.getEditStudy = (req, res, next) => {}
+
+exports.postEditStudy = (req, res, next) => {}
