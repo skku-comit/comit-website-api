@@ -1,7 +1,18 @@
+require('dotenv').config()
+
 const express = require('express')
+const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 
+const adminRoutes = require('./src/routes/admin')
+const userRoutes = require('./src/routes/user')
+
 const app = express()
+
+app.use(bodyParser.urlencoded({ extended: false }))
+
+app.use('/api/admin', adminRoutes)
+app.use('/api', userRoutes)
 
 app.get('/api', (req, res, next) => {
   res.json({ message: 'hello' })
@@ -13,6 +24,3 @@ mongoose
     app.listen(3000)
   })
   .catch(console.log)
-
-// env 작업 필요
-// crud 완성

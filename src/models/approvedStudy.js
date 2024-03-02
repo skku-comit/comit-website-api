@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
 
-const studySchema = new Schema({
+const approvedStudySchema = new Schema({
   imageSrc: {
     type: String,
     required: true
@@ -44,4 +44,4 @@ const studySchema = new Schema({
   description: String
 })
 
-module.exports = mongoose.model('Study', studySchema)
+module.exports = mongoose.model('ApprovedStudy', approvedStudySchematudySchema)
