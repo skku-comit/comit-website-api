@@ -3,7 +3,7 @@ import passport from "passport";
 import bcrypt from "bcrypt";
 import CoMitUser from "../schema/user";
 
-const signIn: RequestHandler = async (req: Request, res: Response, next: NextFunction) =>
+const signup: RequestHandler = async (req: Request, res: Response, next: NextFunction) =>
 {
     try
     {
@@ -56,4 +56,4 @@ const login: RequestHandler = async (req: Request, res: Response, next: NextFunc
     })(req, res, next);
 }
 
-export { signIn, login };
+export { signup, login };
