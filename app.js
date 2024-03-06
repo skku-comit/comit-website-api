@@ -14,10 +14,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use('/api/admin', adminRoutes)
 app.use('/api', userRoutes)
 
-app.get('/api', (req, res, next) => {
-  res.json({ message: 'hello' })
-})
-
 mongoose
   .connect(process.env.dbUri)
   .then(() => {

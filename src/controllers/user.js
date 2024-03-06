@@ -1,3 +1,5 @@
+const moment = require('moment')
+
 const Study = require('../models/study')
 
 exports.getStudies = (req, res, next) => {
@@ -32,6 +34,7 @@ exports.postAddStudy = (req, res, next) => {
   const stack = req.body.stack
   const campus = req.body.campus
   const description = req.body.description
+  const createDate = moment().format('YYYY-MM-DD HH:mm:ss')
   const study = new Study({
     status: 'reviewing',
     imageSrc: imageSrc,
@@ -43,7 +46,8 @@ exports.postAddStudy = (req, res, next) => {
     level: level,
     stack: stack,
     campus: campus,
-    description: description
+    description: description,
+    createDate: createDate
   })
   study
     .save()

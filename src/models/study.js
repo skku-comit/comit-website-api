@@ -45,7 +45,13 @@ const studySchema = new Schema({
     type: String
     //required: true
   },
-  description: String
+
+  description: String,
+
+  createDate: {
+    type: String,
+    default: Date.now
+  }
 })
 
 module.exports = mongoose.model('Study', studySchema)
