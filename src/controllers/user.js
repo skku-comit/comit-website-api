@@ -1,8 +1,7 @@
-const ApprovedStudy = require('../models/approvedStudy')
 const Study = require('../models/study')
 
 exports.getStudies = (req, res, next) => {
-  ApprovedStudy.find()
+  Study.find()
     .then((studies) => {
       res.json(studies)
     })
@@ -11,7 +10,7 @@ exports.getStudies = (req, res, next) => {
 
 exports.getStudy = (req, res, next) => {
   const studyId = req.params.studyId
-  ApprovedStudy.findById(studyId)
+  Study.findById(studyId)
     .then((study) => {
       res.json(study)
     })
@@ -34,6 +33,7 @@ exports.postAddStudy = (req, res, next) => {
   const campus = req.body.campus
   const description = req.body.description
   const study = new Study({
+    status: 'reviewing',
     imageSrc: imageSrc,
     title: title,
     mentor: mentor,
@@ -48,7 +48,8 @@ exports.postAddStudy = (req, res, next) => {
   study
     .save()
     .then(() => {
-      res.redirect('/api/study')
+      res.json()
+      //res.redirect('/api/study')
     })
     .catch(console.log)
 }
@@ -59,7 +60,7 @@ exports.getEditStudy = (req, res, next) => {
     res.redirect('/api/study')
   }
   const studyId = req.params.studyId
-  ApprovedStudy.findById(studyId)
+  Study.findById(studyId)
     .then((study) => {
       if (!study) {
         return res.redirect('/api/study')
@@ -82,8 +83,9 @@ exports.postEditStudy = (req, res, next) => {
   const updatedCampus = req.body.campus
   const updatedDescription = req.body.description
 
-  ApprovedStudy.findById(studyId)
+  Study.findById(studyId)
     .then((study) => {
+      study.status = 'reviewing'
       study.imageSrc = updatedImageSrc
       study.title = updatedTitle
       study.mentor = updatedMentor
@@ -95,21 +97,6 @@ exports.postEditStudy = (req, res, next) => {
       study.campus = updatedCampus
       study.description = updatedDescription
       return study.save()
-    })
-    .then(() => {
-      Study.findById(studyId).then((study) => {
-        study.imageSrc = updatedImageSrc
-        study.title = updatedTitle
-        study.mentor = updatedMentor
-        study.day = updatedDay
-        study.startTime = updatedStartTime
-        study.endTime = updatedEndTime
-        study.level = updatedLevel
-        study.stack = updatedStack
-        study.campus = updatedCampus
-        study.description = updatedDescription
-        return study.save()
-      })
     })
     .then(() => {
       res.redirect('/api/study')
