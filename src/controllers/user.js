@@ -5,25 +5,21 @@ const Study = require('../models/study')
 exports.getStudies = (req, res, next) => {
   Study.find()
     .then((studies) => {
-      res.json(studies)
+      res.status(200).json(studies)
     })
     .catch(console.log)
 }
 
 exports.getStudy = (req, res, next) => {
-  const studyId = req.params.studyId
+  const studyId = req.params.id
   Study.findById(studyId)
     .then((study) => {
-      res.json(study)
+      res.status(200).json(study)
     })
     .catch(console.log)
 }
 
-exports.getAddStudy = (req, res, next) => {
-  res.send()
-}
-
-exports.postAddStudy = (req, res, next) => {
+exports.addStudy = (req, res, next) => {
   const imageSrc = req.body.imageSrc
   const title = req.body.title
   const mentor = req.body.mentor
@@ -51,31 +47,14 @@ exports.postAddStudy = (req, res, next) => {
   })
   study
     .save()
-    .then(() => {
-      res.json()
-      //res.redirect('/api/study')
-    })
-    .catch(console.log)
-}
-
-exports.getEditStudy = (req, res, next) => {
-  const editMode = req.query.edit
-  if (!editMode) {
-    res.redirect('/api/study')
-  }
-  const studyId = req.params.studyId
-  Study.findById(studyId)
     .then((study) => {
-      if (!study) {
-        return res.redirect('/api/study')
-      }
-      res.json(study)
+      res.status(201).json({ id: study._id })
     })
     .catch(console.log)
 }
 
-exports.postEditStudy = (req, res, next) => {
-  const studyId = req.body.studyId
+exports.editStudy = (req, res, next) => {
+  const studyId = req.body.id
   const updatedImageSrc = req.body.imageSrc
   const updatedTitle = req.body.title
   const updatedMentor = req.body.mentor
@@ -100,10 +79,11 @@ exports.postEditStudy = (req, res, next) => {
       study.stack = updatedStack
       study.campus = updatedCampus
       study.description = updatedDescription
-      return study.save()
+      study.save()
+      return study
     })
-    .then(() => {
-      res.redirect('/api/study')
+    .then((study) => {
+      res.satus(200).json(study)
     })
     .catch(console.log)
 }

@@ -4,18 +4,16 @@ const adminController = require('../controllers/admin')
 
 const router = express.Router()
 
-//show all studies
+//give all studies to front
 router.get('/study', adminController.getStudies)
 
-//show a particular study
-router.get('/study/:studyId', adminController.getStudy)
+//give a particular study to front
+router.get('/study/:id', adminController.getStudy)
 
 //edit or approve a study
-router.get('/edit-study/:studyId', adminController.getEditStudy)
-
-router.post('/edit-study', adminController.postEditStudy)
+router.put('/study/:id', adminController.editStudy)
 
 //delete a study
-router.post('/study', adminController.postDeleteStudy)
+router.delete('/study/:id', adminController.deleteStudy)
 
 module.exports = router

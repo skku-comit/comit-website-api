@@ -3,38 +3,22 @@ const Study = require('../models/study')
 exports.getStudies = (req, res, next) => {
   Study.find()
     .then((studies) => {
-      res.json(studies)
+      res.status(200).json(studies)
     })
     .catch(console.log)
 }
 
 exports.getStudy = (req, res, next) => {
-  const studyId = req.params.studyId
+  const studyId = req.params.id
   Study.findById(studyId)
     .then((study) => {
-      res.json(study)
+      res.status(200).json(study)
     })
     .catch(console.log)
 }
 
-exports.getEditStudy = (req, res, next) => {
-  const editMode = req.query.edit
-  if (!editMode) {
-    res.redirect('/api/admin/study')
-  }
-  const studyId = req.params.studyId
-  Study.findById(studyId)
-    .then((study) => {
-      if (!study) {
-        return res.redirect('/api/admin/study')
-      }
-      res.json(study)
-    })
-    .catch(console.log)
-}
-
-exports.postEditStudy = (req, res, next) => {
-  const studyId = req.body.studyId
+exports.editStudy = (req, res, next) => {
+  const studyId = req.body.id
   const updatedStatus = req.body.status
   const updatedImageSrc = req.body.imageSrc
   const updatedTitle = req.body.title
@@ -62,17 +46,17 @@ exports.postEditStudy = (req, res, next) => {
       study.description = updatedDescription
       return study.save()
     })
-    .then(() => {
-      res.redirect('/api/admin/study')
+    .then((study) => {
+      res.status(200).json(study)
     })
     .catch(console.log)
 }
 
-exports.postDeleteStudy = (req, res, next) => {
-  const studyId = req.params.studyId
+exports.deleteStudy = (req, res, next) => {
+  const studyId = req.params.id
   Study.findByIdAndDelete(studyId)
     .then(() => {
-      res.redirect('api/admin/study')
+      res.status(200).send(studyId)
     })
     .catch(console.log)
 }

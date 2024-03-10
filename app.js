@@ -9,6 +9,7 @@ const userRoutes = require('./src/routes/user')
 
 const app = express()
 
+app.use(express.json({ extended: false }))
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use('/api/admin', adminRoutes)
