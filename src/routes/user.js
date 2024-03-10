@@ -4,20 +4,16 @@ const userController = require('../controllers/user')
 
 const router = express.Router()
 
-//show all studies
+//give all studies to front
 router.get('/study', userController.getStudies)
 
-//show a particular study
-router.get('/study/:studyId', userController.getStudy)
+//give a particular study to front
+router.get('/study/:id', userController.getStudy)
 
 //add a study
-router.get('/add-study', userController.getAddStudy)
-
-router.post('/add-study', userController.postAddStudy)
+router.post('/study', userController.addStudy)
 
 //edit a study
-router.get('/edit-study/:studyId', userController.getEditStudy)
-
-router.post('/edit-study', userController.postEditStudy)
+router.put('/study/:id', userController.editStudy)
 
 module.exports = router
