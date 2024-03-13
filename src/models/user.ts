@@ -26,6 +26,11 @@ const CoMitUserSchema = new Schema({
     {
         type: Number,
         required: true,
+    },
+    isAdmin:
+    {
+        type: Boolean,
+        required: true,
     }
 });
 

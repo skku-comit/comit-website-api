@@ -1,9 +1,9 @@
 import { RequestHandler, Request, Response, NextFunction } from "express";
 import passport from "passport";
 import bcrypt from "bcrypt";
-import CoMitUser from "../schema/user";
+import CoMitUser from "../models/user";
 
-const signIn: RequestHandler = async (req: Request, res: Response, next: NextFunction) =>
+const signup: RequestHandler = async (req: Request, res: Response, next: NextFunction) =>
 {
     try
     {
@@ -21,39 +21,66 @@ const signIn: RequestHandler = async (req: Request, res: Response, next: NextFun
             password: hashedPW,
             userName,
             studentID,
+            isAdmin: false,
         });
         return res.status(201).json({ message: 0 });
     }
-    catch (err)
+    catch (error)
     {
-        console.error(err);
-        return next(err);
+        console.error(error);
+        next(error);
     }
 }
 
 const login: RequestHandler = async (req: Request, res: Response, next: NextFunction) =>
 {
-    passport.authenticate("local", (authError: Error|any, user: Express.User, info: any) =>
-    {
-        if (authError)
+    try {
+        passport.authenticate("local", { failureRedirect: "/auth/login" }, (authError: Error|any, user: Express.User, info: any) =>
         {
-            console.error(authError);
-            return next(authError);
-        }
-        if (!user)
-        {
-            return res.status(403);
-        }
-        return req.login(user, (loginError) =>
-        {
-            if (loginError)
+            console.log(info || "no info");
+            if (authError)
             {
-                console.error(loginError);
-                return next(loginError);
+                console.error(authError);
+                next(authError);
             }
-            return;
-        });
-    })(req, res, next);
+            if (!user)
+            {
+                return res.status(403);
+            }
+            return req.login(user, (loginError) =>
+            {
+                if (loginError)
+                {
+                    console.error(loginError);
+                    next(loginError);
+                }
+                return;
+            });
+        })(req, res, next);
+    } catch (error) {
+        console.error(error);
+    }
 }
 
-export { signIn, login };
+const logout = (req: Request, res: Response, next: NextFunction) =>
+{
+    req.logout((error) =>
+    {
+        if (error)
+        {
+            console.error(error);
+            next(error);
+        }
+    });
+
+    req.session.save((error) => {
+        if (error)
+        {
+            console.error(error);
+            next(error);
+        }
+        res.redirect("/");
+    });
+}
+
+export { signup, login, logout };

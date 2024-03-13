@@ -1,11 +1,6 @@
 import { RequestHandler, Request, Response, NextFunction } from "express";
 
-const isLoggedIn: RequestHandler = 
-(
-    req: Request, 
-    res: Response, 
-    next: NextFunction
-) =>
+const isLoggedIn: RequestHandler = (req: Request, res: Response, next: NextFunction) =>
 {
     if (req.isAuthenticated())
     {
@@ -13,16 +8,11 @@ const isLoggedIn: RequestHandler =
     }
     else
     {
-        res.status(403).send("Log In required");
+        res.status(403).json({ message: "Log In required" });
     }
 }
 
-const isNotLoggedIn: RequestHandler = 
-(
-    req: Request, 
-    res: Response, 
-    next: NextFunction
-) =>
+const isNotLoggedIn: RequestHandler = (req: Request, res: Response, next: NextFunction) =>
 {
     if (!req.isAuthenticated())
     {

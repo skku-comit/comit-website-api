@@ -1,13 +1,25 @@
 import { isExpression } from "typescript";
-import CoMitUser from "../schema/user";
+import CoMitUser from "../models/user";
 
 declare global
 {
     namespace Express
     {
         interface User {
-            id?: number;
+            userName: string;
+            email: string;
+            id: number;
         }
-        interface User extends CoMitUser {};
+
+        interface Session {
+            user?: User;
+        }
+    }
+
+    namespace session
+    {
+        interface Session {
+            user?: User;
+        }
     }
 }

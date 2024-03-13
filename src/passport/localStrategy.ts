@@ -1,19 +1,20 @@
 import passport from "passport";
 import * as localStrategy from "passport-local"
 import bcrypt from "bcrypt";
-
-import CoMitUser from "../schema/user";
+import connectDB from "../mongodb/connectDB";
+import CoMitUser from "../models/user";
 
 const local = () =>
 {
     passport.use(new localStrategy.Strategy({
         usernameField: "email",
-        passwordField: "passwowrd",
+        passwordField: "password",
         passReqToCallback: false,
     }, async (email: string, password: string, done) =>
     {
         try
         {
+            await connectDB();
             const user = await CoMitUser.findOne({ email });
             if (user)
             {
@@ -32,12 +33,12 @@ const local = () =>
                 done(null, false, { message: "User not in database" });
             }
         }
-        catch (err)
+        catch (error)
         {
-            console.error(err);
-            done(err);
+            console.error(error);
+            done(error);
         }
-    }))
+    }));
 }
 
 export default local;

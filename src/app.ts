@@ -8,6 +8,10 @@ import * as path from "path";
 import passportAuth from "./passport/index";
 
 import authRouter from "./routes/auth";
+import studyRouter from "./routes/study";
+import adminRouter from "./routes/admin";
+import isAdmin from "./middlewares/isAdmin";
+
 
 dotenv.config();
 passportAuth();
@@ -24,7 +28,8 @@ app.use((req: Request, res: Response, next: NextFunction) =>
     {
         morgan("dev")(req, res, next);
     }
-})
+});
+app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
@@ -48,6 +53,8 @@ app.get("/api", (req: Request, res: Response, next: NextFunction) =>
 });
 
 app.use("/auth", authRouter);
+app.use("/study", studyRouter);
+app.use("/admin", isAdmin, adminRouter);
 
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) =>
@@ -55,7 +62,7 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) =>
     res.locals.message = err?.message;
     res.locals.error = process.env.NODE_ENV !== "production" ? err : {};
     res.status(err?.status || 500);
-    return res.send("error");
+    return res.send({ message: "error" });
 })
 
 app.listen("3000", () =>
