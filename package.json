@@ -2,10 +2,10 @@
   "name": "comit-website-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon dist/app.js"
+    "start": "tsc-watch --onSuccess \"nodemon dist/app.js\""
   },
   "author": "",
   "license": "ISC",
@@ -32,6 +32,7 @@
     "morgan": "^1.10.0",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
+    "tsc-watch": "^6.0.4",
     "typescript": "^5.3.3"
   }
 }
