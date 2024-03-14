@@ -6,6 +6,8 @@ import dotenv from "dotenv";
 import passport from "passport";
 import * as path from "path";
 import passportAuth from "./passport/index";
+import hpp from "hpp";
+import helmet from "helmet";
 
 import authRouter from "./routes/auth";
 import studyRouter from "./routes/study";
@@ -22,6 +24,8 @@ app.use((req: Request, res: Response, next: NextFunction) =>
 {
     if (process.env.NODE_ENV === "production")
     {
+        app.use(hpp());
+        app.use(helmet());
         morgan("combined")(req, res, next);
     }
     else 
